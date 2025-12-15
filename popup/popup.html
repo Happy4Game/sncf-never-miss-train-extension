@@ -7,5 +7,17 @@
   </head>
   <body>
     <p>Do not loose your train anymore!</p>
+    <search>
+      <label for="city">City</label>
+      <input
+        type="text"
+        id="station"
+        placeholder="Search for a city"
+        list="station-list"
+      />
+      <datalist id="station-list"></datalist>
+      <input type="text" hidden id="hidden-station" />
+    </search>
+    <button>Fetch !</button>
   </body>
 </html>

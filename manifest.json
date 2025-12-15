@@ -7,5 +7,6 @@
     "default_title": "Click Me",
     "default_popup": "./popup/popup.html"
   },
+  "host_permissions": ["https://*.sncf-voyageurs.com/"],
   "permissions": ["scripting"]
 }
