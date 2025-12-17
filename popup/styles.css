@@ -1,5 +1,7 @@
 html {
-  min-height: 5em;
-  min-width: 10em;
+  min-width: 25em;
   background: rgb(229, 229, 229);
+}
+#list-departures div p {
+  background-color: yellow;
 }

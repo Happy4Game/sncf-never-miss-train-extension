@@ -1,5 +1,9 @@
 import { init } from "./init.js";
-import { fetchDepartures, fetchStationList } from "./utils.js";
+import {
+  fetchDepartures,
+  fetchStationList,
+  parseDateToHourMinSec,
+} from "./utils.js";
 
 window.onload = (event) => {
   init();
@@ -26,7 +30,25 @@ window.onload = (event) => {
         fetchDepartures(
           window.localStorage.getItem("trainStationCityCode")
         ).then((list) => {
-          console.log(list);
+          const departureListDiv = document.querySelector("#list-departures");
+          while (departureListDiv.firstChild) {
+            departureListDiv.removeChild(departureListDiv.firstChild);
+          }
+          for (const l of list) {
+            const departureDiv = document.createElement("div");
+            const destination = l.traffic.destination;
+            const track = l.platform.track;
+            const detailsURL = l.TrafficDetailsUrl;
+            const scheduledTime = new Date(l.scheduledTime);
+            const actualTime = new Date(l.actualTime);
+            const informationStatus = l.informationStatus;
+            departureDiv.innerHTML = `
+            <p>${destination} scheduled at ${parseDateToHourMinSec(
+              scheduledTime
+            )}, real time ${parseDateToHourMinSec(actualTime)}<p>
+            `;
+            departureListDiv.appendChild(departureDiv);
+          }
         });
       }
     });
