@@ -7,6 +7,9 @@
     "default_title": "Click Me",
     "default_popup": "./popup/popup.html"
   },
-  "host_permissions": ["https://*.sncf-voyageurs.com/"],
+  "host_permissions": [
+    "https://*.sncf-voyageurs.com/",
+    "https://www.garesetconnexions.sncf/schedule-table/Departures/*"
+  ],
   "permissions": ["scripting"]
 }
