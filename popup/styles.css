@@ -2,6 +2,29 @@ html {
   min-width: 25em;
   background: rgb(229, 229, 229);
 }
-#list-departures div p {
-  background-color: yellow;
+#list-departures {
+  margin: auto;
+  border-collapse: collapse;
+}
+search {
+  text-align: center;
+}
+search label {
+  display: block;
+}
+#btn-list {
+  display: flex;
+  justify-content: space-evenly;
+}
+#list-departures tr td {
+  padding: 5px;
+  color: white;
+  margin: 0;
+}
+
+#list-departures tbody tr:nth-child(odd) {
+  background-color: #007aff;
+}
+#list-departures tbody tr:nth-child(even) {
+  background-color: #003a79;
 }

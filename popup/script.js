@@ -2,7 +2,7 @@ import { init } from "./init.js";
 import {
   fetchDepartures,
   fetchStationList,
-  parseDateToHourMinSec,
+  parseDateToHourMin,
 } from "./utils.js";
 
 window.onload = (event) => {
@@ -30,22 +30,40 @@ window.onload = (event) => {
         fetchDepartures(
           window.localStorage.getItem("trainStationCityCode")
         ).then((list) => {
-          const departureListDiv = document.querySelector("#list-departures");
+          const departureListDiv = document.querySelector(
+            "#list-departures > tbody"
+          );
           while (departureListDiv.firstChild) {
             departureListDiv.removeChild(departureListDiv.firstChild);
           }
           for (const l of list) {
-            const departureDiv = document.createElement("div");
+            const departureDiv = document.createElement("tr");
             const destination = l.traffic.destination;
             const track = l.platform.track;
             const detailsURL = l.TrafficDetailsUrl;
             const scheduledTime = new Date(l.scheduledTime);
             const actualTime = new Date(l.actualTime);
             const informationStatus = l.informationStatus;
+            const presentation = l.presentation;
+            const platform = l.platform;
             departureDiv.innerHTML = `
-            <p>${destination} scheduled at ${parseDateToHourMinSec(
-              scheduledTime
-            )}, real time ${parseDateToHourMinSec(actualTime)}<p>
+              <td>${destination}</td>
+              <td>
+                ${parseDateToHourMin(scheduledTime)}
+              </td>
+              <td>
+                ${informationStatus?.trainStatus}
+              </td>
+              <td>
+                ${platform.isTrackactive ? platform.track : ""}
+              </td>
+              <td>
+                ${
+                  informationStatus.delay !== null
+                    ? informationStatus.delay
+                    : ""
+                }
+              </td>
             `;
             departureListDiv.appendChild(departureDiv);
           }

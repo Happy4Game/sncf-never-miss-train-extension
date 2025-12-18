@@ -14,7 +14,7 @@ export async function fetchDepartures(idStation) {
 /**
  * Fetch station list
  * @param {string} search City name
- * @returns {Array<{code: string, libelle: string}>}
+ * @returns {Promise<Array<{code: string, libelle: string}>>}
  */
 export async function fetchStationList(search = "%") {
   const param = new URLSearchParams({ libelle: search });
@@ -36,12 +36,10 @@ export async function fetchStationList(search = "%") {
  * @param {Date} date Date to convert
  * @returns
  */
-export function parseDateToHourMinSec(date) {
+export function parseDateToHourMin(date) {
   const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
   const minutes =
     date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-  const seconds =
-    date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
 
-  return `${hour}:${minutes}:${seconds}`;
+  return `${hour}:${minutes}`;
 }
