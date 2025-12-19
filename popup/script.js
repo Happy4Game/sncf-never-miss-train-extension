@@ -3,14 +3,15 @@ import {
   fetchDepartures,
   fetchStationList,
   parseDateToHourMin,
+  parseDateToHourMinSec,
 } from "./utils.js";
 
 window.onload = (event) => {
   init();
 
-  // Set trainStationCityCode when #set-train-station-city-btn is clicked
+  // Refresh and feed departure list
   document
-    .querySelector("#set-train-station-city-btn")
+    .querySelector("#refresh-departures-btn")
     .addEventListener("click", (ev) => {
       const inputCity = document.querySelector("#station");
       const datalist = document.querySelector("datalist");
@@ -20,16 +21,20 @@ window.onload = (event) => {
           window.localStorage.setItem("trainStationCityCode", o.dataset.code);
         }
       }
-    });
 
-  // Refresh and feed departure list
-  document
-    .querySelector("#refresh-departures-btn")
-    .addEventListener("click", (ev) => {
       if (window.localStorage.getItem("trainStationCityCode") !== "") {
+        document.querySelector("#last-refresh-time").innerHTML = "pending";
         fetchDepartures(
           window.localStorage.getItem("trainStationCityCode")
         ).then((list) => {
+          window.localStorage.setItem(
+            "lastRefresh",
+            parseDateToHourMinSec(new Date())
+          );
+
+          document.querySelector("#last-refresh-time").innerHTML =
+            window.localStorage.getItem("lastRefresh");
+
           const departureListDiv = document.querySelector(
             "#list-departures > tbody"
           );
@@ -60,9 +65,11 @@ window.onload = (event) => {
               <td>
                 ${
                   informationStatus.delay !== null
-                    ? informationStatus.delay
+                    ? `${informationStatus.delay}min`
                     : ""
                 }
+              </td>
+              <td style="background-color: #e5e5e5; cursor: pointer;">🚆
               </td>
             `;
             departureListDiv.appendChild(departureDiv);

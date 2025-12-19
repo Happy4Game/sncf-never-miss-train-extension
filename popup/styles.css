@@ -6,6 +6,9 @@ html {
   margin: auto;
   border-collapse: collapse;
 }
+p {
+  text-align: center;
+}
 search {
   text-align: center;
 }
