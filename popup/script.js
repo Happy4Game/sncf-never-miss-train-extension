@@ -6,6 +6,15 @@ import {
   parseDateToHourMinSec,
 } from "./utils.js";
 
+const addEventListenerToTrackingBtn = () => {
+  const allBtn = document.querySelectorAll(".set-tracking-btn");
+  allBtn.forEach((e) => {
+    e.addEventListener("click", (ev) => {
+      chrome.runtime.sendMessage(e.dataset);
+    });
+  });
+};
+
 window.onload = (event) => {
   init();
 
@@ -69,11 +78,22 @@ window.onload = (event) => {
                     : ""
                 }
               </td>
-              <td style="background-color: #e5e5e5; cursor: pointer;">🚆
+              <td class="set-tracking-btn" 
+                data-destination="${destination}"
+                data-scheduled-time="${parseDateToHourMin(scheduledTime)}"
+                data-status="${informationStatus?.trainStatus}"
+                data-track="${platform.isTrackactive ? platform.track : ""}"
+                data-delay="${
+                  informationStatus.delay !== null
+                    ? `${informationStatus.delay}min`
+                    : ""
+                }"
+              style="background-color: #e5e5e5; cursor: pointer;">🚆
               </td>
             `;
             departureListDiv.appendChild(departureDiv);
           }
+          addEventListenerToTrackingBtn();
         });
       }
     });
