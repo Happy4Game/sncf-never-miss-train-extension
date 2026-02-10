@@ -1,9 +1,15 @@
 export function init() {
   if (
-    window.localStorage.getItem("trainStationCity") !== null &&
-    window.localStorage.getItem("trainStationCity") !== undefined
+    localStorage.getItem("trainStationCity") !== null &&
+    localStorage.getItem("trainStationCity") !== undefined
   ) {
     document.querySelector("#station").value =
-      window.localStorage.getItem("trainStationCity");
+      localStorage.getItem("trainStationCity");
+  }
+
+  if (localStorage.getItem("serviceWorkerRunning") === "running") {
+    document
+      .querySelector("#tracking-infos")
+      .setAttribute("style", "display: block");
   }
 }

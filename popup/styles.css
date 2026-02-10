@@ -31,3 +31,7 @@ search label {
 #list-departures tbody tr:nth-child(even) {
   background-color: #003a79;
 }
+
+#tracking-infos {
+  text-align: center;
+}

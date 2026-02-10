@@ -1,5 +1,6 @@
 import { init } from "./init.js";
 import {
+  clearChromeBadge,
   fetchDepartures,
   fetchStationList,
   parseDateToHourMin,
@@ -9,14 +10,39 @@ import {
 const addEventListenerToTrackingBtn = () => {
   const allBtn = document.querySelectorAll(".set-tracking-btn");
   allBtn.forEach((e) => {
-    e.addEventListener("click", (ev) => {
-      chrome.runtime.sendMessage(e.dataset);
+    e.addEventListener("click", async (ev) => {
+      localStorage.setItem("serviceWorkerRunning", "running");
+      document
+        .querySelector("#tracking-infos")
+        .setAttribute("style", "display: block");
+
+      await chrome.runtime.sendMessage({
+        trainStationCityCode: localStorage.getItem("trainStationCityCode"),
+        trainToTrack: e.dataset,
+      });
+    });
+  });
+};
+
+const addEventListenerToStopTrackingBtn = () => {
+  const btn = document.querySelector("#set-untrack-btn");
+
+  btn.addEventListener("click", async (ev) => {
+    localStorage.setItem("serviceWorkerRunning", "stopped");
+    clearChromeBadge();
+    document
+      .querySelector("#tracking-infos")
+      .setAttribute("style", "display: none");
+    await chrome.runtime.sendMessage({
+      trainStationCityCode: null,
+      trainToTrack: null,
     });
   });
 };
 
 window.onload = (event) => {
   init();
+  addEventListenerToStopTrackingBtn();
 
   // Refresh and feed departure list
   document
@@ -33,30 +59,29 @@ window.onload = (event) => {
 
       if (localStorage.getItem("trainStationCityCode") !== "") {
         document.querySelector("#last-refresh-time").innerHTML = "pending";
-        fetchDepartures(
-          localStorage.getItem("trainStationCityCode")
-        ).then((list) => {
-          localStorage.setItem(
-            "lastRefresh",
-            parseDateToHourMinSec(new Date())
-          );
+        fetchDepartures(localStorage.getItem("trainStationCityCode")).then(
+          (list) => {
+            localStorage.setItem(
+              "lastRefresh",
+              parseDateToHourMinSec(new Date()),
+            );
 
-          document.querySelector("#last-refresh-time").innerHTML =
-            localStorage.getItem("lastRefresh");
+            document.querySelector("#last-refresh-time").innerHTML =
+              localStorage.getItem("lastRefresh");
 
-          const departureListDiv = document.querySelector(
-            "#list-departures > tbody"
-          );
-          while (departureListDiv.firstChild) {
-            departureListDiv.firstChild.remove();
-          }
-          for (const l of list) {
-            const departureDiv = document.createElement("tr");
-            const destination = l.traffic.destination;
-            const scheduledTime = new Date(l.scheduledTime);
-            const informationStatus = l.informationStatus;
-            const platform = l.platform;
-            departureDiv.innerHTML = `
+            const departureListDiv = document.querySelector(
+              "#list-departures > tbody",
+            );
+            while (departureListDiv.firstChild) {
+              departureListDiv.firstChild.remove();
+            }
+            for (const l of list) {
+              const departureDiv = document.createElement("tr");
+              const destination = l.traffic.destination;
+              const scheduledTime = new Date(l.scheduledTime);
+              const informationStatus = l.informationStatus;
+              const platform = l.platform;
+              departureDiv.innerHTML = `
               <td>${destination}</td>
               <td>
                 ${parseDateToHourMin(scheduledTime)}
@@ -87,10 +112,11 @@ window.onload = (event) => {
               style="background-color: #e5e5e5; cursor: pointer;">🚆
               </td>
             `;
-            departureListDiv.appendChild(departureDiv);
-          }
-          addEventListenerToTrackingBtn();
-        });
+              departureListDiv.appendChild(departureDiv);
+            }
+            addEventListenerToTrackingBtn();
+          },
+        );
       }
     });
 
@@ -101,7 +127,7 @@ window.onload = (event) => {
     localStorage.setItem("trainStationCityCode", "");
     fetchStationList(ev.target.value).then((list) => {
       while (datalist.firstChild) {
-        datalist.firstChild.remove()
+        datalist.firstChild.remove();
       }
       for (const l of list) {
         const option = document.createElement("option");

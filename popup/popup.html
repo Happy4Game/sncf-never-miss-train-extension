@@ -1,5 +1,5 @@
 <!-- popup.html -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Do not loose your train anymore!</title>
@@ -24,6 +24,9 @@
       <button id="refresh-departures-btn">Refresh station list</button>
     </div>
     <p>Last refresh: <i id="last-refresh-time">-</i></p>
+    <div id="tracking-infos" style="display: none">
+      <button id="set-untrack-btn">Stop tracking</button>
+    </div>
     <table id="list-departures">
       <thead>
         <tr>
