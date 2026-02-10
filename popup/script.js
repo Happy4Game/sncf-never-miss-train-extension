@@ -1,13 +1,48 @@
 import { init } from "./init.js";
 import {
+  clearChromeBadge,
   fetchDepartures,
   fetchStationList,
   parseDateToHourMin,
   parseDateToHourMinSec,
 } from "./utils.js";
 
+const addEventListenerToTrackingBtn = () => {
+  const allBtn = document.querySelectorAll(".set-tracking-btn");
+  allBtn.forEach((e) => {
+    e.addEventListener("click", async (ev) => {
+      localStorage.setItem("serviceWorkerRunning", "running");
+      document
+        .querySelector("#tracking-infos")
+        .setAttribute("style", "display: block");
+
+      await chrome.runtime.sendMessage({
+        trainStationCityCode: localStorage.getItem("trainStationCityCode"),
+        trainToTrack: e.dataset,
+      });
+    });
+  });
+};
+
+const addEventListenerToStopTrackingBtn = () => {
+  const btn = document.querySelector("#set-untrack-btn");
+
+  btn.addEventListener("click", async (ev) => {
+    localStorage.setItem("serviceWorkerRunning", "stopped");
+    clearChromeBadge();
+    document
+      .querySelector("#tracking-infos")
+      .setAttribute("style", "display: none");
+    await chrome.runtime.sendMessage({
+      trainStationCityCode: null,
+      trainToTrack: null,
+    });
+  });
+};
+
 window.onload = (event) => {
   init();
+  addEventListenerToStopTrackingBtn();
 
   // Refresh and feed departure list
   document
@@ -18,40 +53,35 @@ window.onload = (event) => {
       // Check if option is already in datalist
       for (const o of datalist.options) {
         if (o.value == inputCity.value) {
-          window.localStorage.setItem("trainStationCityCode", o.dataset.code);
+          localStorage.setItem("trainStationCityCode", o.dataset.code);
         }
       }
 
-      if (window.localStorage.getItem("trainStationCityCode") !== "") {
+      if (localStorage.getItem("trainStationCityCode") !== "") {
         document.querySelector("#last-refresh-time").innerHTML = "pending";
-        fetchDepartures(
-          window.localStorage.getItem("trainStationCityCode")
-        ).then((list) => {
-          window.localStorage.setItem(
-            "lastRefresh",
-            parseDateToHourMinSec(new Date())
-          );
+        fetchDepartures(localStorage.getItem("trainStationCityCode")).then(
+          (list) => {
+            localStorage.setItem(
+              "lastRefresh",
+              parseDateToHourMinSec(new Date()),
+            );
 
-          document.querySelector("#last-refresh-time").innerHTML =
-            window.localStorage.getItem("lastRefresh");
+            document.querySelector("#last-refresh-time").innerHTML =
+              localStorage.getItem("lastRefresh");
 
-          const departureListDiv = document.querySelector(
-            "#list-departures > tbody"
-          );
-          while (departureListDiv.firstChild) {
-            departureListDiv.removeChild(departureListDiv.firstChild);
-          }
-          for (const l of list) {
-            const departureDiv = document.createElement("tr");
-            const destination = l.traffic.destination;
-            const track = l.platform.track;
-            const detailsURL = l.TrafficDetailsUrl;
-            const scheduledTime = new Date(l.scheduledTime);
-            const actualTime = new Date(l.actualTime);
-            const informationStatus = l.informationStatus;
-            const presentation = l.presentation;
-            const platform = l.platform;
-            departureDiv.innerHTML = `
+            const departureListDiv = document.querySelector(
+              "#list-departures > tbody",
+            );
+            while (departureListDiv.firstChild) {
+              departureListDiv.firstChild.remove();
+            }
+            for (const l of list) {
+              const departureDiv = document.createElement("tr");
+              const destination = l.traffic.destination;
+              const scheduledTime = new Date(l.scheduledTime);
+              const informationStatus = l.informationStatus;
+              const platform = l.platform;
+              departureDiv.innerHTML = `
               <td>${destination}</td>
               <td>
                 ${parseDateToHourMin(scheduledTime)}
@@ -64,28 +94,40 @@ window.onload = (event) => {
               </td>
               <td>
                 ${
-                  informationStatus.delay !== null
-                    ? `${informationStatus.delay}min`
-                    : ""
+                  informationStatus.delay === null
+                    ? ""
+                    : `${informationStatus.delay}min`
                 }
               </td>
-              <td style="background-color: #e5e5e5; cursor: pointer;">🚆
+              <td class="set-tracking-btn" 
+                data-destination="${destination}"
+                data-scheduled-time="${parseDateToHourMin(scheduledTime)}"
+                data-status="${informationStatus?.trainStatus}"
+                data-track="${platform.isTrackactive ? platform.track : ""}"
+                data-delay="${
+                  informationStatus.delay === null
+                    ? ""
+                    : `${informationStatus.delay}min`
+                }"
+              style="background-color: #e5e5e5; cursor: pointer;">🚆
               </td>
             `;
-            departureListDiv.appendChild(departureDiv);
-          }
-        });
+              departureListDiv.appendChild(departureDiv);
+            }
+            addEventListenerToTrackingBtn();
+          },
+        );
       }
     });
 
   // Set trainStationCity and set
   document.querySelector("#station").addEventListener("input", (ev) => {
     const datalist = document.querySelector("datalist");
-    window.localStorage.setItem("trainStationCity", ev.target.value);
-    window.localStorage.setItem("trainStationCityCode", "");
+    localStorage.setItem("trainStationCity", ev.target.value);
+    localStorage.setItem("trainStationCityCode", "");
     fetchStationList(ev.target.value).then((list) => {
       while (datalist.firstChild) {
-        datalist.removeChild(datalist.firstChild);
+        datalist.firstChild.remove();
       }
       for (const l of list) {
         const option = document.createElement("option");

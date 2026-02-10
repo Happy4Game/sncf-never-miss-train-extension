@@ -5,7 +5,7 @@
  */
 export async function fetchDepartures(idStation) {
   const request = await fetch(
-    `https://www.garesetconnexions.sncf/schedule-table/Departures/${idStation}`
+    `https://www.garesetconnexions.sncf/schedule-table/Departures/${idStation}`,
   );
   const departureList = await request.json();
   return departureList;
@@ -19,13 +19,13 @@ export async function fetchDepartures(idStation) {
 export async function fetchStationList(search = "%") {
   const param = new URLSearchParams({ libelle: search });
   const request = await fetch(
-    `https://www.sncf-voyageurs.com/api/bff/locations?${param}&typeEmplacement=ZONE_ARRET&component=schedule`
+    `https://www.sncf-voyageurs.com/api/bff/locations?${param}&typeEmplacement=ZONE_ARRET&component=schedule`,
   );
   const result = await request.json();
   const response = [];
   for (const r of result) {
     const code = r.infosZoneArret.listeCodes.valeur.find(
-      (e) => e.type === "UIC"
+      (e) => e.type === "UIC",
     )?.valeur;
     response.push({ libelle: r.libelle, code: code.padStart(10, "0") });
   }
@@ -57,4 +57,41 @@ export function parseDateToHourMin(date) {
     date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
   return `${hour}:${minutes}`;
+}
+
+/**
+ * Define chrome badge to green
+ */
+export function setChromeBadgeGreen() {
+  chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
+  chrome.action.setBadgeTextColor({ color: [0, 255, 0, 255] });
+  chrome.action.setBadgeText({ text: "-" });
+}
+
+/**
+ * Define chrome badge to orange with text in it
+ * @param {String} time Text to show
+ */
+export function setChromeBadgeOrangeAndLate(time) {
+  chrome.action.setBadgeBackgroundColor({ color: [252, 244, 15, 255] });
+  chrome.action.setBadgeTextColor({ color: [0, 0, 0, 255] });
+  chrome.action.setBadgeText({ text: time });
+}
+
+/**
+ * Define chrome badge to red
+ */
+export function setChromeBadgeRed() {
+  chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
+  chrome.action.setBadgeTextColor({ color: [255, 0, 0, 255] });
+  chrome.action.setBadgeText({ text: "-" });
+}
+
+/**
+ * Clear chrome badge
+ */
+export function clearChromeBadge() {
+  chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 1] });
+  chrome.action.setBadgeTextColor({ color: [0, 0, 0, 1] });
+  chrome.action.setBadgeText({ text: "" });
 }

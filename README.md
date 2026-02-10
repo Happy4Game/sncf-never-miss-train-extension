@@ -1,5 +1,7 @@
 # SNCF Never miss your train
 
+![alt text](example.png)
+
 SNCF Never miss your train is a browser extension for Google Chrome and Microsoft Edge designed to prevent users when train it is canceled.
 
 It allows users to view real-time departure and arrival schedules for SNCF train stations and, most importantly (in future), proactively sends notifications if a specific train is delayed or cancelled.
