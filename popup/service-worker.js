@@ -40,5 +40,5 @@ setInterval(
       setChromeBadge(matchedDeparture);
     }
   },
-  15 * 1000 * 1,
+  5 * 60 * 1000 * 1,
 );
