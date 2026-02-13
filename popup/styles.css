@@ -1,6 +1,16 @@
+:root {
+  --sncf-black-blue: #003a79;
+  --sncf-white-blue: #007aff;
+}
+
 html {
+  color: white;
   min-width: 25em;
-  background: rgb(229, 229, 229);
+  background: linear-gradient(var(--sncf-black-blue), var(--sncf-white-blue));
+}
+#title {
+  font-size: larger;
+  text-shadow: 1px 1px black;
 }
 #list-departures {
   margin: auto;
@@ -26,12 +36,35 @@ search label {
 }
 
 #list-departures tbody tr:nth-child(odd) {
-  background-color: #007aff;
+  background-color: var(--sncf-white-blue);
 }
 #list-departures tbody tr:nth-child(even) {
-  background-color: #003a79;
+  background-color: var(--sncf-black-blue);
 }
 
 #tracking-infos {
   text-align: center;
+}
+
+#station {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+body > search > label {
+  font-weight: bold;
+}
+
+button {
+  border: 0;
+  padding: 6px;
+  border-radius: 10px;
+  color: rgb(76, 76, 76);
+  background: linear-gradient(rgb(147, 232, 249), rgb(6, 251, 251));
+  box-shadow: 0 2px 2px black;
+}
+
+#set-untrack-btn {
+  padding: 4px;
+  margin-bottom: 4px;
 }
