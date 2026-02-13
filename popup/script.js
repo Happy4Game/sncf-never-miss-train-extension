@@ -1,10 +1,10 @@
 import { init } from "./init.js";
 import {
-  clearChromeBadge,
   fetchDepartures,
   fetchStationList,
   parseDateToHourMin,
   parseDateToHourMinSec,
+  setChromeBadge,
 } from "./utils.js";
 
 const addEventListenerToTrackingBtn = () => {
@@ -12,6 +12,7 @@ const addEventListenerToTrackingBtn = () => {
   allBtn.forEach((e) => {
     e.addEventListener("click", async (ev) => {
       localStorage.setItem("serviceWorkerRunning", "running");
+      setChromeBadge(e.dataset);
       document
         .querySelector("#tracking-infos")
         .setAttribute("style", "display: block");
@@ -29,7 +30,7 @@ const addEventListenerToStopTrackingBtn = () => {
 
   btn.addEventListener("click", async (ev) => {
     localStorage.setItem("serviceWorkerRunning", "stopped");
-    clearChromeBadge();
+    setChromeBadge(null);
     document
       .querySelector("#tracking-infos")
       .setAttribute("style", "display: none");

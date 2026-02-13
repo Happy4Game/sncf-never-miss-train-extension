@@ -1,7 +1,7 @@
 /**
  * Fetch departures
  * @param {string} idStation Id of the station (fetchable with fetchStationList)
- * @returns
+ * @returns {Promise<Array<Train>>}
  */
 export async function fetchDepartures(idStation) {
   const request = await fetch(
@@ -62,7 +62,7 @@ export function parseDateToHourMin(date) {
 /**
  * Define chrome badge to green
  */
-export function setChromeBadgeGreen() {
+function setChromeBadgeGreen() {
   chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
   chrome.action.setBadgeTextColor({ color: [0, 255, 0, 255] });
   chrome.action.setBadgeText({ text: "-" });
@@ -72,7 +72,7 @@ export function setChromeBadgeGreen() {
  * Define chrome badge to orange with text in it
  * @param {String} time Text to show
  */
-export function setChromeBadgeOrangeAndLate(time) {
+function setChromeBadgeOrangeAndLate(time) {
   chrome.action.setBadgeBackgroundColor({ color: [252, 244, 15, 255] });
   chrome.action.setBadgeTextColor({ color: [0, 0, 0, 255] });
   chrome.action.setBadgeText({ text: time });
@@ -81,7 +81,7 @@ export function setChromeBadgeOrangeAndLate(time) {
 /**
  * Define chrome badge to red
  */
-export function setChromeBadgeRed() {
+function setChromeBadgeRed() {
   chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
   chrome.action.setBadgeTextColor({ color: [255, 0, 0, 255] });
   chrome.action.setBadgeText({ text: "-" });
@@ -90,8 +90,30 @@ export function setChromeBadgeRed() {
 /**
  * Clear chrome badge
  */
-export function clearChromeBadge() {
+function clearChromeBadge() {
   chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 1] });
   chrome.action.setBadgeTextColor({ color: [0, 0, 0, 1] });
   chrome.action.setBadgeText({ text: "" });
+}
+
+/**
+ * Define chrome badge depends of train
+ * @param {Train} train
+ */
+export function setChromeBadge(train) {
+  if (train === null || train === undefined) {
+    clearChromeBadge();
+  } else {
+    const timeCropped = train.delay.substring(0, train.delay.length - 2);
+    if (train.status === "Ontime") {
+      setChromeBadgeGreen();
+    } else if (train.status === "RETARD") {
+      setChromeBadgeOrangeAndLate(timeCropped);
+    } else if (
+      train.status === "SUPPRESSION_TOTALE" ||
+      train.status === "SUPPRESSION_PARTIELLE"
+    ) {
+      setChromeBadgeRed();
+    }
+  }
 }
