@@ -101,7 +101,7 @@ function clearChromeBadge() {
  * @param {Train} train
  */
 export function setChromeBadge(train) {
-  if (train === null) {
+  if (train === null || train === undefined) {
     clearChromeBadge();
   } else {
     const timeCropped = train.delay.substring(0, train.delay.length - 2);
