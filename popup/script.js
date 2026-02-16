@@ -5,6 +5,7 @@ import {
   parseDateToHourMin,
   parseDateToHourMinSec,
   setChromeBadge,
+  showTrainNotification,
 } from "./utils.js";
 
 const addEventListenerToTrackingBtn = () => {
@@ -16,6 +17,8 @@ const addEventListenerToTrackingBtn = () => {
       document
         .querySelector("#tracking-infos")
         .setAttribute("style", "display: block");
+
+      await showTrainNotification(e.dataset);
 
       await chrome.runtime.sendMessage({
         trainStationCityCode: localStorage.getItem("trainStationCityCode"),
@@ -59,6 +62,9 @@ window.onload = (event) => {
       }
 
       if (localStorage.getItem("trainStationCityCode") !== "") {
+        document
+          .querySelector("#list-departures")
+          .setAttribute("style", "display: none");
         document.querySelector("#last-refresh-time").innerHTML = "pending";
         fetchDepartures(localStorage.getItem("trainStationCityCode")).then(
           (list) => {
@@ -76,6 +82,9 @@ window.onload = (event) => {
             while (departureListDiv.firstChild) {
               departureListDiv.firstChild.remove();
             }
+            document
+              .querySelector("#list-departures")
+              .setAttribute("style", "display: table");
             for (const l of list) {
               const departureDiv = document.createElement("tr");
               const destination = l.traffic.destination;
