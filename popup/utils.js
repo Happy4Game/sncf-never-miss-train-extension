@@ -114,6 +114,25 @@ export function setChromeBadge(train) {
       train.status === "SUPPRESSION_PARTIELLE"
     ) {
       setChromeBadgeRed();
+      showTrainNotification(train, `${train.destination} is deleted!`);
     }
   }
+}
+
+/**
+ * Show notification to the user
+ * @param {Train} train
+ * @param {string} message
+ */
+export async function showTrainNotification(
+  train,
+  message = `${train.destination} is tracked!`,
+) {
+  await chrome.notifications.create(null, {
+    contextMessage: `${train.status}`,
+    iconUrl: "../icons/icon128.png",
+    message: message,
+    title: "Never miss your train anymore!",
+    type: "basic",
+  });
 }

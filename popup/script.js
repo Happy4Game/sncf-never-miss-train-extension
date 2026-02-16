@@ -5,6 +5,7 @@ import {
   parseDateToHourMin,
   parseDateToHourMinSec,
   setChromeBadge,
+  showTrainNotification,
 } from "./utils.js";
 
 const addEventListenerToTrackingBtn = () => {
@@ -16,6 +17,8 @@ const addEventListenerToTrackingBtn = () => {
       document
         .querySelector("#tracking-infos")
         .setAttribute("style", "display: block");
+
+      await showTrainNotification(e.dataset);
 
       await chrome.runtime.sendMessage({
         trainStationCityCode: localStorage.getItem("trainStationCityCode"),
