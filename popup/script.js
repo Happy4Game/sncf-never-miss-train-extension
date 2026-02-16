@@ -59,6 +59,9 @@ window.onload = (event) => {
       }
 
       if (localStorage.getItem("trainStationCityCode") !== "") {
+        document
+          .querySelector("#list-departures")
+          .setAttribute("style", "display: none");
         document.querySelector("#last-refresh-time").innerHTML = "pending";
         fetchDepartures(localStorage.getItem("trainStationCityCode")).then(
           (list) => {
@@ -76,6 +79,9 @@ window.onload = (event) => {
             while (departureListDiv.firstChild) {
               departureListDiv.firstChild.remove();
             }
+            document
+              .querySelector("#list-departures")
+              .setAttribute("style", "display: table");
             for (const l of list) {
               const departureDiv = document.createElement("tr");
               const destination = l.traffic.destination;

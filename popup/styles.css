@@ -13,6 +13,7 @@ html {
   text-shadow: 1px 1px black;
 }
 #list-departures {
+  display: none;
   margin: auto;
   border-collapse: collapse;
 }
