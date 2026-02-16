@@ -1,4 +1,7 @@
+import { appliesLocales } from "./appliesLocales.js";
+
 export function init() {
+  appliesLocales();
   if (
     localStorage.getItem("trainStationCity") !== null &&
     localStorage.getItem("trainStationCity") !== undefined

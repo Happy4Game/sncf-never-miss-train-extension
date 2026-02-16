@@ -1,0 +1,60 @@
+{
+  "extDesc": {
+    "message": "Alert you when your train is late or cancelled",
+    "description": "Extension description"
+  },
+  "title": {
+    "message": "Do not loose your train anymore!",
+    "description": "Title showed in popup"
+  },
+  "city": {
+    "message": "City",
+    "description": "City"
+  },
+  "lastRefresh": {
+    "message": "Last refresh: ",
+    "description": "Last refresh label"
+  },
+  "searchPlaceHolder": {
+    "message": "Search for a city",
+    "description": "Placeholder label"
+  },
+  "refreshStationListBtn": {
+    "message": "Refresh station list",
+    "description": "Label of the refresh btn"
+  },
+  "stopTrackingBtn": {
+    "message": "Stop tracking",
+    "description": "Label of the stop tracking button"
+  },
+  "trackingPendingMsg": {
+    "message": "pending",
+    "description": "Message showed when refresh is pending"
+  },
+  "destination": {
+    "message": "Destinations",
+    "description": "Label showed for the table"
+  },
+  "when": {
+    "message": "When ?",
+    "description": "Label showed for the table"
+  },
+  "status": {
+    "message": "Status",
+    "description": "Label showed for the table"
+  },
+  "track": {
+    "message": "Track",
+    "description": "Label showed for the table"
+  },
+  "delay": {
+    "message": "Delay",
+    "description": "Label showed for the table"
+  },
+  "notificationStartTrack": {
+    "message": " is tracked"
+  },
+  "notificationTrainDeleted": {
+    "message": " is deleted"
+  }
+}

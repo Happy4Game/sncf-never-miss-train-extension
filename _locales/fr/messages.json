@@ -1,0 +1,60 @@
+{
+  "extDesc": {
+    "message": "Vous alerte si votre train est en retard ou annulé",
+    "description": "Extension description"
+  },
+  "title": {
+    "message": "Ne loupe plus jamais ton train !",
+    "description": "Title showed in popup"
+  },
+  "city": {
+    "message": "Ville",
+    "description": "City"
+  },
+  "lastRefresh": {
+    "message": "Dernier rafraichissement: ",
+    "description": "Last refresh label"
+  },
+  "searchPlaceHolder": {
+    "message": "Chercher une ville",
+    "description": "Placeholder label"
+  },
+  "refreshStationListBtn": {
+    "message": "Rafraichir la liste des départs",
+    "description": "Label of the refresh btn"
+  },
+  "stopTrackingBtn": {
+    "message": "Arrêter le suivi",
+    "description": "Label of the stop tracking button"
+  },
+  "trackingPendingMsg": {
+    "message": "en cours",
+    "description": "Message showed when refresh is pending"
+  },
+  "destination": {
+    "message": "Destinations",
+    "description": "Label showed for the table"
+  },
+  "when": {
+    "message": "Quand ?",
+    "description": "Label showed for the table"
+  },
+  "status": {
+    "message": "Status",
+    "description": "Label showed for the table"
+  },
+  "track": {
+    "message": "Quai",
+    "description": "Label showed for the table"
+  },
+  "delay": {
+    "message": "Retard",
+    "description": "Label showed for the table"
+  },
+  "notificationStartTrack": {
+    "message": " est suivi"
+  },
+  "notificationTrainDeleted": {
+    "message": " est supprimé"
+  }
+}
