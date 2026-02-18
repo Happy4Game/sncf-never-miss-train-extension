@@ -116,6 +116,12 @@ Contributions are welcome! If you'd like to contribute:
 
 This project is provided as-is for personal use. Please respect SNCF's data usage policies.
 
+## 📌 Note
+
+**About this README**: This README file was written by GitHub Copilot (AI).
+
+**About Development**: The extension itself was developed **without AI assistance**. If you want to contribute to this project, please **do not use AI** for development. The author prefers human-written code contributions to maintain code quality and personal involvement in the project.
+
 ---
 
 **Made with ❤️ by a passionate developer who doesn't want to miss their train!**
