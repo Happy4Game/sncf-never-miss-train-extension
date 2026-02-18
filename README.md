@@ -1,64 +1,121 @@
-# SNCF Never miss your train
+# SNCF - Never Miss Your Train 🚆
 
-![alt text](example.png)
+![Extension Preview](example.png)
 
-SNCF Never miss your train is a browser extension for Google Chrome and Microsoft Edge designed to prevent users when train it is canceled.
+**Never Miss Your Train** is a browser extension for Google Chrome and Microsoft Edge that helps you stay informed about your SNCF train departures. View real-time station boards and receive instant notifications if your tracked train is delayed or cancelled.
 
-It allows users to view real-time departure and arrival schedules for SNCF train stations and, most importantly (in future), proactively sends notifications if a specific train is delayed or cancelled.
+## ✨ Features
 
-## 🚀 Key Features
-
-- Live Station Boards: Instantly view real-time departures and arrivals for any SNCF station (like in a train station).
-
-- Cancellation Alerts (in the future): Set up monitoring for your specific train. The extension runs in the background and notifies you immediately if the train is marked as "Supprimé" (Cancelled) or significantly delayed.
+### Current Features
+- **🚉 Live Station Boards**: View real-time departure schedules for any SNCF train station
+- **🔍 Station Search**: Easily search and select your departure station from all SNCF stations
+- **📊 Comprehensive Information**: See destination, scheduled time, platform, delays, and train status
+- **👁️ Train Tracking**: Select a specific train to track its status
+- **🔔 Smart Notifications**: Receive browser notifications when:
+  - Your tracked train is cancelled (total or partial suppression)
+  - Your tracked train is delayed
+  - Tracking starts successfully
+- **🎨 Visual Status Indicators**: 
+  - 🟢 Green badge: Train is on time
+  - 🟡 Yellow badge with delay time: Train is delayed
+  - 🔴 Red badge: Train is cancelled
+- **🔄 Auto-refresh**: Automatically checks train status every 5 minutes when tracking is active
+- **🌍 Multi-language Support**: Available in English and French
 
 ## 📦 Installation
 
-Download the source code or clone this repository.
+### From Source (Developer Mode)
 
-Open your browser and navigate to chrome://extensions or edge://extensions.
+1. **Download the extension**
+   ```bash
+   git clone https://github.com/Happy4Game/sncf-never-miss-train-extension.git
+   ```
+   Or download and extract the ZIP file from the repository.
 
-Enable "Developer mode" (usually a toggle in the top right).
+2. **Open your browser's extension page**
+   - Chrome: Navigate to `chrome://extensions`
+   - Edge: Navigate to `edge://extensions`
 
-Click "Load unpacked".
+3. **Enable Developer Mode**
+   - Toggle the "Developer mode" switch (usually in the top-right corner)
 
-Select the folder containing this project's files.
+4. **Load the extension**
+   - Click "Load unpacked"
+   - Select the folder containing the extension files
 
-## 🛠️ How it Works
+5. **Done!** The extension icon should now appear in your browser toolbar.
 
-Open the extension popup.
+## 🛠️ How to Use
 
-Search for your departure station.
+1. **Open the extension** by clicking on the extension icon in your browser toolbar
 
-Click the "Refresh station list" button
+2. **Search for your station**
+   - Type your departure station name in the search field
+   - Select your station from the dropdown list
 
-The extension will check the status in the background and alert you via system notification if the status changes to cancelled.
+3. **View departures**
+   - Click the "Refresh station list" button
+   - A table will display all upcoming departures with:
+     - Destination
+     - Scheduled departure time
+     - Current status (On time, Delayed, Cancelled)
+     - Platform number
+     - Delay duration (if applicable)
+
+4. **Track a specific train**
+   - Click the 🚆 icon next to the train you want to track
+   - The extension will now monitor this train in the background
+   - You'll receive notifications about status changes
+   - The extension badge will show the train's status
+
+5. **Stop tracking**
+   - Click the "Stop tracking" button to stop monitoring the train
+   - The badge will be cleared
+
+## 🏗️ Technical Details
+
+- **Manifest Version**: 3
+- **Permissions Required**:
+  - `notifications`: To send you alerts about your train
+  - `scripting`: To run the background monitoring
+- **APIs Used**:
+  - SNCF Voyageurs Location API
+  - Gares & Connexions Schedule API
 
 ## ⚠️ Legal Disclaimer & Data Usage
 
-Please read this section carefully.
+**Please read this section carefully.**
 
-1. Independent Project
-   This is a 100% independent, solo project developed by an individual developer. It is not an official product of the SNCF (Société nationale des chemins de fer français), nor is it endorsed by, affiliated with, or sponsored by the SNCF or any of its subsidiaries.
+### 1. Independent Project
+This is a 100% independent, solo project developed by an individual developer. It is **not an official product** of the SNCF (Société nationale des chemins de fer français), nor is it endorsed by, affiliated with, or sponsored by the SNCF or any of its subsidiaries.
 
-2. Data Source
-   This extension retrieves public transport data (schedules, real-time status) provided by the SNCF Open Data APIs (or relevant public interface).
+### 2. Data Source
+This extension retrieves public transport data (schedules, real-time status) from SNCF's public APIs:
+- Data is used strictly to provide functionality to end-users
+- The developer makes no claim of ownership over the data
+- The accuracy of information depends entirely on the data provided by SNCF APIs
 
-The developer makes no claim of ownership over the data.
+### 3. Contact for Rights Holders
+If you are a representative of the SNCF or a related entity and believe this project:
+- Infringes on any rights
+- Violates API usage terms
+- Should be taken down or modified
 
-Data is used strictly to provide functionality to the end-user.
+**Please contact me directly** before taking formal action. As a solo developer, I am willing to comply immediately with any valid request.
 
-The accuracy of the information depends entirely on the data provided by the SNCF APIs.
+📧 **Contact**: dufeutrel.thibaut@gmail.com
 
-3. Contact for Rights Holders
-   If you are a representative of the SNCF or a related entity and you believe this project infringes on any rights, violates API usage terms, or if you wish for this project to be taken down or modified:
+## 🤝 Contributing
 
-Please contact me directly before taking formal action. I am a solo developer/enthusiast willing to comply immediately with any valid request regarding the use of your data or brand.
+Contributions are welcome! If you'd like to contribute:
+- Open an issue to discuss your ideas
+- Submit a pull request with your improvements
+- Please keep the code simple and maintainable
 
-📧 Contact: dufeutrel.thibaut@gmail.com
+## 📝 License
 
-### Note
+This project is provided as-is for personal use. Please respect SNCF's data usage policies.
 
-I only use AI to make this README.
+---
 
-If you want to contribute to this project, please limit your utilisation of it
+**Made with ❤️ by a passionate developer who doesn't want to miss their train!**
